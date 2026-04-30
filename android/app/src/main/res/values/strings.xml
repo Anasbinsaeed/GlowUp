@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Glowup</string>
+    <string name="reminders_widget_description">Shows your upcoming reminders</string>
+    <string name="habits_widget_description">Shows your daily habit progress</string>
+    <string name="flight_widget_description">Shows your next upcoming flight countdown</string>
+    <string name="water_widget_description">Shows your daily water intake progress</string>
+    <string name="grocery_widget_description">Shows your grocery list quick view</string>
+    <string name="subscriptions_widget_description">Shows your subscriptions monthly total and next due</string>
+    <string name="learning_widget_description">Shows your active learning goal progress</string>
+    <string name="fitness_widget_description">Shows your fitness activity for today</string>
+    <string name="home_widget_description">Shows your complete home screen with all activities</string>
+    <string name="dashboard_widget_description">Shows a dashboard of your daily activities</string>
+</resources>

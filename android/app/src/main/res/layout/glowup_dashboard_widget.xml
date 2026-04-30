@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_main_background"
+    android:padding="14dp">
+
+    <!-- ── Header ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/dash_greeting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Glowup ✨"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/widget_accent_pink_light" />
+
+        <TextView
+            android:id="@+id/dash_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:textSize="11sp"
+            android:textColor="@color/widget_text_secondary" />
+    </LinearLayout>
+
+    <!-- ── Reminders Section ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/widget_card_pink"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌸 Upcoming Reminders"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/widget_accent_pink"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:id="@+id/dash_reminder_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No reminders today 🎉"
+            android:textSize="11sp"
+            android:textColor="@color/widget_text_primary"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/dash_reminder_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="11sp"
+            android:textColor="@color/widget_text_primary"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- ── Habits Section ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/widget_card_lavender"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="💖 Habits"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent_pink" />
+
+            <TextView
+                android:id="@+id/dash_habits_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/0"
+                android:textSize="11sp"
+                android:textColor="@color/widget_text_secondary" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/dash_habits_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="@color/widget_accent_pink"
+            android:progressBackgroundTint="@color/widget_divider" />
+    </LinearLayout>
+
+    <!-- ── Flight + Fitness Row ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <!-- Flight card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/widget_card_lavender"
+            android:padding="10dp"
+            android:layout_marginEnd="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✈️ Flight"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent_pink"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/dash_flight_route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No flights"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_text_primary"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/dash_flight_countdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                android:textColor="@color/widget_accent_pink" />
+        </LinearLayout>
+
+        <!-- Fitness card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/widget_card_mint"
+            android:padding="10dp"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💪 Fitness"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent_pink"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/dash_fitness_walk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.0 km"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_text_primary" />
+
+            <TextView
+                android:id="@+id/dash_fitness_activities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 activities"
+                android:textSize="10sp"
+                android:textColor="@color/widget_text_secondary" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ── Grocery + Subscriptions Row ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Grocery card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/widget_card_mint"
+            android:padding="10dp"
+            android:layout_marginEnd="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🛒 Grocery"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent_pink"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/dash_grocery_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 items"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_text_primary" />
+
+            <TextView
+                android:id="@+id/dash_grocery_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                android:textColor="@color/widget_text_secondary"
+                android:ellipsize="end"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <!-- Subscriptions card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/widget_card_peach"
+            android:padding="10dp"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💳 Subs"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_accent_pink"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/dash_sub_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/widget_text_primary" />
+
+            <TextView
+                android:id="@+id/dash_sub_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                android:textColor="@color/widget_text_secondary"
+                android:ellipsize="end"
+                android:maxLines="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

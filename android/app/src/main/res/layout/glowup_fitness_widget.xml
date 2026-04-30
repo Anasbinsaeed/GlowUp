@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_background"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="💪 Fitness"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FF4C79" />
+
+        <TextView
+            android:id="@+id/fitness_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 activities"
+            android:textSize="11sp"
+            android:textColor="#888888" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fitness_walk_km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0.0 km walked today"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/fitness_activities_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No activities logged yet"
+        android:textSize="12sp"
+        android:textColor="#888888" />
+
+</LinearLayout>
