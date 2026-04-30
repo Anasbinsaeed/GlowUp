@@ -472,7 +472,7 @@ class _AddSubSheetState extends State<_AddSubSheet> {
           color: context.surfaceColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(40),
         child: Wrap(
           spacing: 8,
           runSpacing: 8,

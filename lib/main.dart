@@ -46,7 +46,6 @@ void main() async {
   // Init home screen widgets
   await WidgetService.init();
 
-  // Handle notification taps — navigate to flight details if payload is flight:id
   NotificationService.onNotificationTap = (payload) {
     if (payload != null && payload.startsWith('flight:')) {
       final flightId = payload.substring('flight:'.length);

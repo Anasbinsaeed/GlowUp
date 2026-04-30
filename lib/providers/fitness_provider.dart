@@ -49,6 +49,7 @@ class FitnessProvider extends ChangeNotifier {
     await _db.delete('fitness_logs', id);
     _logs.removeWhere((l) => l.id == id);
     notifyListeners();
+    WidgetService.updateFitnessWidget(todayWalkKm, todayLogs.length);
   }
 
   Future<void> setNutritionDay(String date, String type) async {

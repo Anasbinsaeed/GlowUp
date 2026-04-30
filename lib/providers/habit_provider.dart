@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../models/habit_model.dart';
 import '../database/db_helper.dart';
+import '../services/widget_service.dart';
 
 class HabitProvider extends ChangeNotifier {
   final DBHelper _db = DBHelper();
@@ -21,12 +22,14 @@ class HabitProvider extends ChangeNotifier {
     await _db.insert('habits', h.toMap());
     _habits.add(h);
     notifyListeners();
+    WidgetService.updateHabitsWidget(_habits);
   }
 
   Future<void> remove(String id) async {
     await _db.delete('habits', id);
     _habits.removeWhere((h) => h.id == id);
     notifyListeners();
+    WidgetService.updateHabitsWidget(_habits);
   }
 
   Future<void> toggleToday(String id) async {
@@ -52,6 +55,7 @@ class HabitProvider extends ChangeNotifier {
     }
     await _db.update('habits', habit.toMap(), id);
     notifyListeners();
+    WidgetService.updateHabitsWidget(_habits);
   }
 
   int _calcStreak(List<String> dates) {

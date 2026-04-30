@@ -53,10 +53,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     });
 
-    // Initial check
+    // Initial check — delay the widget render slightly so the Flutter engine
+    // is fully ready, especially when launched via a homescreen widget tap.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ReminderProvider>().checkAndDeactivatePastReminders();
-      _updateHomeWidget();
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) _updateHomeWidget();
+      });
     });
   }
 
@@ -79,79 +82,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final flightProv = context.read<FlightProvider>();
     final habitProv = context.read<HabitProvider>();
     final groceryProv = context.read<GroceryProvider>();
-    final shoppingProv = context.read<ShoppingProvider>();
     final fitnessProv = context.read<FitnessProvider>();
-    final userProv = context.read<UserProvider>();
 
-    final now = DateTime.now();
-    final next24Hours = now.add(const Duration(hours: 24));
-
-    // Prepare reminder data
-    final upcomingReminders = reminderProv.activeReminders
-        .where((r) {
-          final next = reminderProv.nextFireTime(r);
-          if (next == null) return false;
-          return next.isAfter(now) && next.isBefore(next24Hours);
-        })
-        .take(2)
-        .map((r) {
-          final timeUntil = r.time.difference(now);
-          final hoursUntil = timeUntil.inHours;
-          return {
-            'emoji': r.emoji,
-            'title': r.title,
-            'time': DateFormat('h:mm a').format(r.time),
-            'countdown': hoursUntil < 1
-                ? '${timeUntil.inMinutes + 1}m'
-                : '${hoursUntil}h',
-          };
-        })
-        .toList();
-
-    // Prepare flight data
-    final upcomingFlights = flightProv.upcoming
-        .where((f) {
-          final timeUntil = f.departureTime.difference(now);
-          return timeUntil.inHours < 24 && timeUntil.inHours >= 0;
-        })
-        .take(1)
-        .map((f) => {'flight': f})
-        .toList();
-
-    // Prepare habit data
-    final habits = habitProv.habits.take(4).toList();
-    final doneCount = habits.where((h) => h.isCompletedToday()).length;
-
-    // Prepare grocery data
-    final groceryTotal = groceryProv.items.length;
-    final groceryDone = groceryProv.checked.length;
-    final groceryRemaining = groceryProv.unchecked.length;
-
-    // Prepare shopping data
-    final shoppingTotal = shoppingProv.items.length;
-    final shoppingDone = shoppingProv.checked.length;
-    final shoppingRemaining = shoppingProv.unchecked.length;
-
-    // Update the home widget
-    WidgetService.updateHomeWidget(
-      name: userProv.name,
-      reminders: upcomingReminders,
-      flights: upcomingFlights,
-      habits: [doneCount, habits.length],
-      grocery: [
-        groceryDone,
-        groceryTotal,
-        groceryRemaining > 0 ? '$groceryRemaining left' : ''
-      ],
-      shopping: [
-        shoppingDone,
-        shoppingTotal,
-        shoppingRemaining > 0 ? '$shoppingRemaining left' : ''
-      ],
-      walkKm: fitnessProv.todayWalkKm,
-      activities: fitnessProv.todayLogs.length,
-      isDark: Theme.of(context).brightness == Brightness.dark,
-    );
+    // Push each data type — each call saves its keys and triggers the dashboard widget
+    WidgetService.updateRemindersWidget(reminderProv.reminders);
+    WidgetService.updateHabitsWidget(habitProv.habits);
+    WidgetService.updateFlightWidget(flightProv.flights);
+    WidgetService.updateGroceryWidget(groceryProv.items);
+    WidgetService.updateFitnessWidget(
+        fitnessProv.todayWalkKm, fitnessProv.todayLogs.length);
   }
 
   @override
