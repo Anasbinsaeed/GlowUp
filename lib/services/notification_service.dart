@@ -29,8 +29,6 @@ class NotificationService {
 
     // Set local timezone - use system's current offset
     final now = DateTime.now();
-    final offsetInHours = now.timeZoneOffset.inHours;
-    final offsetInMinutes = now.timeZoneOffset.inMinutes % 60;
 
     // Find a timezone location that matches the current offset
     try {
@@ -48,16 +46,11 @@ class NotificationService {
 
       if (matchingLocation != null) {
         tz.setLocalLocation(matchingLocation);
-        print(
-            '✅ Timezone set to: ${matchingLocation.name} (UTC${offsetInHours >= 0 ? '+' : ''}$offsetInHours:${offsetInMinutes.abs().toString().padLeft(2, '0')})');
       } else {
         // Fallback: use local timezone
         tz.setLocalLocation(tz.local);
-        print(
-            '✅ Timezone set to local (UTC${offsetInHours >= 0 ? '+' : ''}$offsetInHours:${offsetInMinutes.abs().toString().padLeft(2, '0')})');
       }
     } catch (e) {
-      print('⚠️ Failed to set timezone, using local: $e');
       tz.setLocalLocation(tz.local);
     }
 
@@ -123,8 +116,6 @@ class NotificationService {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(countdownChannel);
-
-    print('✅ Notification service initialized with high-priority channels');
   }
 
   Future<void> requestPermissions() async {
@@ -133,18 +124,11 @@ class NotificationService {
 
     // Request notification permission
     final notifGranted = await android?.requestNotificationsPermission();
-    print(
-        '📱 Notification permission: ${notifGranted == true ? "GRANTED" : "DENIED"}');
 
     // Request exact alarm permission (critical for scheduled notifications)
     final alarmGranted = await android?.requestExactAlarmsPermission();
-    print(
-        '⏰ Exact alarm permission: ${alarmGranted == true ? "GRANTED" : "DENIED"}');
 
-    if (notifGranted != true || alarmGranted != true) {
-      print(
-          '⚠️ WARNING: Permissions not fully granted. Notifications may not work!');
-    }
+    if (notifGranted != true || alarmGranted != true) {}
   }
 
   Future<NotificationDetails> _details() async {
@@ -232,19 +216,10 @@ class NotificationService {
 
     // Only schedule if the time is in the future
     if (scheduledTime.isBefore(DateTime.now())) {
-      print('⚠️ Skipping notification - time is in the past: $scheduledTime');
       return;
     }
 
     final tzScheduledTime = tz.TZDateTime.from(scheduledTime, tz.local);
-    print('📅 Scheduling notification:');
-    print('   ID: $id');
-    print('   Title: $title');
-    print('   Category: $category');
-    print('   Scheduled for: $scheduledTime');
-    print('   TZ Scheduled: $tzScheduledTime');
-    print('   Is Repeating: $isRepeating');
-    print('   Current time: ${DateTime.now()}');
 
     try {
       await _plugin.zonedSchedule(
@@ -260,10 +235,7 @@ class NotificationService {
         matchDateTimeComponents:
             isRepeating ? DateTimeComponents.dayOfWeekAndTime : null,
       );
-      print('✅ Notification scheduled successfully!');
-    } catch (e) {
-      print('❌ Error scheduling notification: $e');
-    }
+    } catch (e) {}
   }
 
   // Schedule flight countdown notifications at key milestones
@@ -283,10 +255,6 @@ class NotificationService {
 
     // Cancel any existing notifications for this flight
     await cancelFlightNotifications(flightId);
-
-    print('✈️ Scheduling flight notifications for $flightNumber');
-    print('   Departure: $departureTime');
-    print('   Current: $now');
 
     // Schedule notification at 5 hours before (4:59:59)
     final fiveHoursBefore = departureTime.subtract(const Duration(hours: 5));
@@ -319,7 +287,6 @@ class NotificationService {
       );
     } else if (departureTime.isAfter(now)) {
       // If already within 5 hours, show the persistent countdown immediately.
-      print('   📍 Already within 5 hours, showing countdown now');
       await showOngoingFlightCountdown(
         id: baseId + 3000,
         flightId: flightId,

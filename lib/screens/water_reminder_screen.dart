@@ -213,7 +213,7 @@ class _WaterReminderScreenState extends State<WaterReminderScreen> {
                         padding: const EdgeInsets.all(20),
                         child: Row(
                           children: [
-                            Text('💧', style: const TextStyle(fontSize: 48))
+                            const Text('💧', style: TextStyle(fontSize: 48))
                                 .animate(onPlay: (c) => c.repeat(reverse: true))
                                 .scale(
                                   begin: const Offset(1, 1),
@@ -250,7 +250,7 @@ class _WaterReminderScreenState extends State<WaterReminderScreen> {
                               onChanged: (v) {
                                 setState(() => _enabled = v);
                               },
-                              activeColor: Colors.white,
+                              activeThumbColor: Colors.white,
                               activeTrackColor: context.accentPink,
                               inactiveThumbColor: context.textTertiary,
                               inactiveTrackColor:

@@ -804,7 +804,7 @@ class _AddSubSheetState extends State<_AddSubSheet> {
                 Switch(
                   value: _reminderEnabled,
                   onChanged: (v) => setState(() => _reminderEnabled = v),
-                  activeColor: Colors.white,
+                  activeThumbColor: Colors.white,
                   activeTrackColor: context.accentPink,
                   inactiveThumbColor: context.textTertiary,
                   inactiveTrackColor:

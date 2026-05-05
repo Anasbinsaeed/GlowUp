@@ -220,7 +220,7 @@ class _SettingsScreenState extends State<SettingsScreen>
               BoxShadow(
                 color: isDark ? AppColors.darkShadow : AppColors.shadowColor,
                 blurRadius: 12,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -312,7 +312,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 BoxShadow(
                   color: isDark ? AppColors.darkShadow : AppColors.shadowColor,
                   blurRadius: 8,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -353,10 +353,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: context.textTertiary)),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text('Version 1.0.0 • Made with 💖',
                 style: TextStyle(fontSize: 12, color: context.textTertiary)),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
                 '© ${DateTime.now().year} Anas Bin Saeed • All Rights Reserved.',
                 style: TextStyle(fontSize: 12, color: context.textTertiary)),

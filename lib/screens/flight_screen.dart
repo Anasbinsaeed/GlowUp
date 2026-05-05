@@ -517,8 +517,9 @@ class _AddFlightSheetState extends State<_AddFlightSheet> {
               controller: _flightNumCtrl,
               textInputAction: TextInputAction.next,
               onChanged: (_) {
-                if (_flightNumberError)
+                if (_flightNumberError) {
                   setState(() => _flightNumberError = false);
+                }
               },
               decoration: InputDecoration(
                 hintText: _flightNumberError

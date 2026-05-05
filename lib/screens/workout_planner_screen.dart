@@ -778,7 +778,7 @@ class _AddExerciseSheetState extends State<_AddExerciseSheet> {
                     _hasWeight = v;
                     if (!v) _weight = null;
                   }),
-                  activeColor: context.accentPink,
+                  activeThumbColor: context.accentPink,
                 ),
               ],
             ),

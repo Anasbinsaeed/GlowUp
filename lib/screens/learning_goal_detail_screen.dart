@@ -187,7 +187,7 @@ class _DetailView extends StatelessWidget {
                           ],
                           const Spacer(),
                           if (isComplete)
-                            Text('🎉', style: const TextStyle(fontSize: 20)),
+                            const Text('🎉', style: TextStyle(fontSize: 20)),
                         ],
                       ),
                       if (goal.totalCount > 0) ...[

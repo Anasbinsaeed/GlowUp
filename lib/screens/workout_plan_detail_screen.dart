@@ -402,7 +402,7 @@ class _EmptyExercises extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('🤸', style: const TextStyle(fontSize: 56))
+          const Text('🤸', style: TextStyle(fontSize: 56))
               .animate()
               .scale(duration: 400.ms, curve: Curves.elasticOut),
           const SizedBox(height: 16),
@@ -591,7 +591,7 @@ class _AddExerciseSheetState extends State<_AddExerciseSheet> {
               const SizedBox(height: 20),
 
               // Exercise name
-              _FieldLabel('Exercise name', context),
+              _fieldLabel('Exercise name', context),
               const SizedBox(height: 8),
               TextField(
                 controller: _nameCtrl,
@@ -637,7 +637,7 @@ class _AddExerciseSheetState extends State<_AddExerciseSheet> {
               const SizedBox(height: 20),
 
               // Weight
-              _FieldLabel('Weight (optional)', context),
+              _fieldLabel('Weight (optional)', context),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -700,7 +700,7 @@ class _AddExerciseSheetState extends State<_AddExerciseSheet> {
               const SizedBox(height: 20),
 
               // Note
-              _FieldLabel('Note (optional)', context),
+              _fieldLabel('Note (optional)', context),
               const SizedBox(height: 8),
               TextField(
                 controller: _noteCtrl,
@@ -753,7 +753,7 @@ class _AddExerciseSheetState extends State<_AddExerciseSheet> {
   }
 }
 
-Widget _FieldLabel(String label, BuildContext context) {
+Widget _fieldLabel(String label, BuildContext context) {
   return Text(
     label,
     style: AppTextStyles.body(fontSize: 12, color: context.textSecondary),

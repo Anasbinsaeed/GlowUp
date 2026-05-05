@@ -64,7 +64,7 @@ class WorkoutExercise {
   String get setsRepsLabel {
     final weight =
         weightKg != null ? ' × ${weightKg!.toStringAsFixed(1)}kg' : '';
-    return '${sets}×${reps}$weight';
+    return '$sets×$reps$weight';
   }
 
   Map<String, dynamic> toMap() => {
