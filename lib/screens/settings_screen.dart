@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
@@ -17,124 +20,177 @@ import '../widgets/cute_snackbar.dart';
 import '../services/notification_service.dart';
 import 'notification_settings_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen>
+    with WidgetsBindingObserver {
+  late ConfettiController _bloomConfetti;
+  Timer? _refreshTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloomConfetti = ConfettiController(duration: const Duration(seconds: 3));
+  }
+
+  @override
+  void dispose() {
+    _bloomConfetti.dispose();
+    _refreshTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _playBloomCelebration() {
+    _bloomConfetti
+      ..stop()
+      ..play();
+  }
 
   @override
   Widget build(BuildContext context) {
     final name = context.watch<UserProvider>().name;
 
-    return Container(
-      decoration: BoxDecoration(gradient: context.gradientBackground),
-      child: SafeArea(
-        child: Column(
-          children: [
-            // Fixed header
-            _buildHeader(context, name),
-            // Scrollable content
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(child: _buildProfileCard(context, name)),
-                  SliverToBoxAdapter(
-                      child: _buildSection(
-                    context,
-                    title: 'App',
-                    emoji: '🌸',
-                    delay: 100,
-                    tiles: [
-                      _SettingsTile(
-                        emoji: '🔔',
-                        title: 'Notifications',
-                        subtitle: 'Manage your cute reminders',
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const NotificationSettingsScreen(),
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(gradient: context.gradientBackground),
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Fixed header
+                _buildHeader(context, name),
+                // Scrollable content
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                          child: _buildProfileCard(context, name)),
+                      SliverToBoxAdapter(
+                          child: _buildSection(
+                        context,
+                        title: 'App',
+                        emoji: '🌸',
+                        delay: 100,
+                        tiles: [
+                          _SettingsTile(
+                            emoji: '🔔',
+                            title: 'Notifications',
+                            subtitle: 'Manage your cute reminders',
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const NotificationSettingsScreen(),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      _SettingsTile(
-                        emoji: '🎨',
-                        title: 'Appearance',
-                        subtitle: 'Dark, Light, or System',
-                        onTap: () => _showAppearanceSettings(context),
-                      ),
-                      _SettingsTile(
-                        emoji: '🌍',
-                        title: 'Language',
-                        subtitle: 'English (more coming soon)',
-                        onTap: () => _showComingSoon(context),
-                      ),
+                          _SettingsTile(
+                            emoji: '🎨',
+                            title: 'Appearance',
+                            subtitle: 'Dark, Light, or System',
+                            onTap: () => _showAppearanceSettings(context),
+                          ),
+                          _SettingsTile(
+                            emoji: '🌍',
+                            title: 'Language',
+                            subtitle: 'English (more coming soon)',
+                            onTap: () => _showComingSoon(context),
+                          ),
+                        ],
+                      )),
+                      SliverToBoxAdapter(
+                          child: _buildSection(
+                        context,
+                        title: 'Account',
+                        emoji: '💖',
+                        delay: 200,
+                        tiles: [
+                          _SettingsTile(
+                            emoji: '✏️',
+                            title: 'Edit Name',
+                            subtitle: name.isNotEmpty
+                                ? 'Hi $name 👋'
+                                : 'Set your name',
+                            onTap: () => _showEditName(context),
+                          ),
+                          _SettingsTile(
+                            emoji: '💰',
+                            title: 'Currency',
+                            subtitle: context.watch<UserProvider>().currency,
+                            onTap: () => _showCurrencyPicker(context),
+                          ),
+                          _SettingsTile(
+                            emoji: '🗑️',
+                            title: 'Clear All Data',
+                            subtitle: 'Start fresh (cannot be undone)',
+                            onTap: () => _showClearData(context),
+                            isDestructive: true,
+                          ),
+                        ],
+                      )),
+                      SliverToBoxAdapter(
+                          child: _buildSection(
+                        context,
+                        title: 'Legal & Info',
+                        emoji: '📋',
+                        delay: 300,
+                        tiles: [
+                          _SettingsTile(
+                            emoji: '🔒',
+                            title: 'Privacy Policy',
+                            subtitle: 'Your data stays on your device',
+                            onTap: () => _showPrivacyPolicy(context),
+                          ),
+                          _SettingsTile(
+                            emoji: '📄',
+                            title: 'Terms of Use',
+                            subtitle: 'Be kind, have fun, glow up',
+                            onTap: () => _showTerms(context),
+                          ),
+                          _SettingsTile(
+                            emoji: '💌',
+                            title: 'About Glowup',
+                            subtitle: 'Made with love & pink vibes',
+                            onTap: () => _showAbout(context),
+                          ),
+                        ],
+                      )),
+                      SliverToBoxAdapter(child: _buildVersionFooter()),
+                      const SliverToBoxAdapter(
+                          child: SizedBox(
+                        height: 100,
+                      )),
                     ],
-                  )),
-                  SliverToBoxAdapter(
-                      child: _buildSection(
-                    context,
-                    title: 'Account',
-                    emoji: '💖',
-                    delay: 200,
-                    tiles: [
-                      _SettingsTile(
-                        emoji: '✏️',
-                        title: 'Edit Name',
-                        subtitle:
-                            name.isNotEmpty ? 'Hi $name 👋' : 'Set your name',
-                        onTap: () => _showEditName(context),
-                      ),
-                      _SettingsTile(
-                        emoji: '💰',
-                        title: 'Currency',
-                        subtitle: context.watch<UserProvider>().currency,
-                        onTap: () => _showCurrencyPicker(context),
-                      ),
-                      _SettingsTile(
-                        emoji: '🗑️',
-                        title: 'Clear All Data',
-                        subtitle: 'Start fresh (cannot be undone)',
-                        onTap: () => _showClearData(context),
-                        isDestructive: true,
-                      ),
-                    ],
-                  )),
-                  SliverToBoxAdapter(
-                      child: _buildSection(
-                    context,
-                    title: 'Legal & Info',
-                    emoji: '📋',
-                    delay: 300,
-                    tiles: [
-                      _SettingsTile(
-                        emoji: '🔒',
-                        title: 'Privacy Policy',
-                        subtitle: 'Your data stays on your device',
-                        onTap: () => _showPrivacyPolicy(context),
-                      ),
-                      _SettingsTile(
-                        emoji: '📄',
-                        title: 'Terms of Use',
-                        subtitle: 'Be kind, have fun, glow up',
-                        onTap: () => _showTerms(context),
-                      ),
-                      _SettingsTile(
-                        emoji: '💌',
-                        title: 'About Glowup',
-                        subtitle: 'Made with love & pink vibes',
-                        onTap: () => _showAbout(context),
-                      ),
-                    ],
-                  )),
-                  SliverToBoxAdapter(child: _buildVersionFooter()),
-                  const SliverToBoxAdapter(
-                      child: SizedBox(
-                    height: 100,
-                  )),
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ConfettiWidget(
+            confettiController: _bloomConfetti,
+            blastDirectionality: BlastDirectionality.directional,
+            blastDirection: -1.57, // upward
+            emissionFrequency: 0.04,
+            numberOfParticles: 12,
+            gravity: 0.1,
+            shouldLoop: false,
+            colors: const [
+              Color(0xFFFFFFFF),
+              Color(0xFFFFF0F5),
+              Color(0xFFFFC1CC),
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -152,65 +208,68 @@ class SettingsScreen extends StatelessWidget {
     final isDark = context.isDark;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient:
-              isDark ? AppColors.gradientPinkDark : AppColors.gradientNewPink,
-          borderRadius: BorderRadius.circular(28),
-          boxShadow: [
-            BoxShadow(
-              color: isDark ? AppColors.darkShadow : AppColors.shadowColor,
-              blurRadius: 12,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? AppColors.darkCardElevated.withValues(alpha: 0.8)
-                    : Colors.white.withValues(alpha: 0.6),
-                shape: BoxShape.circle,
+      child: GestureDetector(
+        onTap: _playBloomCelebration,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient:
+                isDark ? AppColors.gradientPinkDark : AppColors.gradientNewPink,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: isDark ? AppColors.darkShadow : AppColors.shadowColor,
+                blurRadius: 12,
+                offset: Offset(0, 4),
               ),
-              child: const Center(
-                child: Text('🌸', style: TextStyle(fontSize: 30)),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.darkCardElevated.withValues(alpha: 0.8)
+                      : Colors.white.withValues(alpha: 0.6),
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Text('🌸', style: TextStyle(fontSize: 30)),
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name.isNotEmpty ? name : 'Bestie 💕',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: context.textPrimary,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name.isNotEmpty ? name : 'Bestie 💕',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: context.textPrimary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Living your best glow-up life ✨',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: context.textSecondary,
+                    const SizedBox(height: 2),
+                    Text(
+                      'Living your best glow-up life ✨',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.textSecondary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      )
-          .animate(delay: 50.ms)
-          .fadeIn(duration: 400.ms)
-          .slideY(begin: 0.1, end: 0),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+            .animate(delay: 50.ms)
+            .fadeIn(duration: 400.ms)
+            .slideY(begin: 0.1, end: 0),
+      ),
     );
   }
 
@@ -550,8 +609,6 @@ class SettingsScreen extends StatelessWidget {
       ('¥', 'JPY', '🇯🇵'),
       ('AED', 'AED', '🇦🇪'),
       ('Rs', 'PKR', '🇵🇰'),
-      ('₩', 'KRW', '🇰🇷'),
-      ('A\$', 'AUD', '🇦🇺'),
       ('C\$', 'CAD', '🇨🇦'),
     ];
 

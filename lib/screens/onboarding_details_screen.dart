@@ -26,8 +26,6 @@ class _OnboardingDetailsScreenState extends State<OnboardingDetailsScreen> {
     ('¥', 'JPY', '🇯🇵'),
     ('AED', 'AED', '🇦🇪'),
     ('Rs', 'PKR', '🇵🇰'),
-    ('₩', 'KRW', '🇰🇷'),
-    ('A\$', 'AUD', '🇦🇺'),
     ('C\$', 'CAD', '🇨🇦'),
   ];
 
@@ -119,10 +117,10 @@ class _OnboardingDetailsScreenState extends State<OnboardingDetailsScreen> {
                 // Age selector
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
                   decoration: BoxDecoration(
                     color: context.cardColor,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: context.accentPink.withValues(alpha: 0.3),
                       width: 1.5,
@@ -164,7 +162,7 @@ class _OnboardingDetailsScreenState extends State<OnboardingDetailsScreen> {
                   ),
                 ).animate().fadeIn(delay: 450.ms).slideY(begin: 0.1, end: 0),
 
-                const SizedBox(height: 36),
+                const SizedBox(height: 12),
 
                 // Currency section
                 Text(
@@ -292,7 +290,7 @@ class _AgeButton extends StatelessWidget {
         decoration: BoxDecoration(
           color:
               enabled ? accentPink.withValues(alpha: 0.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: enabled
                 ? accentPink.withValues(alpha: 0.4)

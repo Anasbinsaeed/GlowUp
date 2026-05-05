@@ -188,17 +188,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             child: ConfettiWidget(
               confettiController: _bloomConfetti,
               blastDirectionality: BlastDirectionality.explosive,
+              emissionFrequency: 0.08,
+              numberOfParticles: 25,
+              gravity: 0.3,
+              shouldLoop: false,
+              createParticlePath: (size) {
+                return Path()
+                  ..addOval(Rect.fromCircle(
+                      center: Offset.zero, radius: size.width / 2));
+              },
               colors: const [
-                AppColors.babyPink,
-                AppColors.softLavender,
-                AppColors.peach,
-                AppColors.newPinkLight,
-                AppColors.streakGold,
+                Color(0xFFFF69B4),
+                Color(0xFFFF1493),
+                Color(0xFFFFB6C1),
               ],
-              numberOfParticles: 30,
-              emissionFrequency: 0.05,
             ),
-          ),
+          )
         ],
       ),
     );
